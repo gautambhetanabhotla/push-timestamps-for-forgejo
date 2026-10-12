@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "Push timestamps for Forgejo",
+  "version": "0.1",
+  "description": "View the times at which commits were pushed, along with when they were created.",
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "scripts": ["worker.js"],
+    "type": "module"
+  },
+  "permissions": ["scripting"],
+  "host_permissions": ["https://code.iiit.ac.in/*"]
+}
