@@ -1,8 +1,17 @@
 {
   "manifest_version": 3,
   "name": "Push timestamps for Forgejo",
-  "version": "0.1",
+  "version": "0.2",
   "description": "View the times at which commits were pushed, along with when they were created.",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "push-timestamps-for-forgejo@gautam",
+      "strict_min_version": "140.0",
+      "data_collection_permissions": {
+        "required": ["none"]
+      }
+    }
+  },
   "action": {
     "default_popup": "popup.html"
   },
@@ -10,6 +19,6 @@
     "scripts": ["worker.js"],
     "type": "module"
   },
-  "permissions": ["scripting"],
-  "host_permissions": ["https://code.iiit.ac.in/*"]
+  "permissions": ["scripting", "storage"],
+  "optional_host_permissions": ["https://*/*"]
 }

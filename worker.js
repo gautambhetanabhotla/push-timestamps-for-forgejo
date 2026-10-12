@@ -1,4 +1,4 @@
-import { getApiToken } from './helpers.js';
+import { getApiToken, isEnabledSite } from './helpers.js';
 
 browser.runtime.onInstalled.addListener(() => {
   console.log("Extension installed");
@@ -8,12 +8,12 @@ browser.runtime.onInstalled.addListener(() => {
 browser.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
   if (!changeInfo.url) return;
 
-  // Matches the glob *commits* against the new URL
-  if (changeInfo.url.includes("commits")) {
-    const api_token = await getApiToken();
+  // Only act on the sites the user has enabled, and match the glob *commits* against the new URL
+  if (changeInfo.url.includes("commits") && await isEnabledSite(changeInfo.url)) {
+    const api_token = await getApiToken(tabId);
     const repo_name = changeInfo.url.split("/").slice(3, 5).join("/");
     console.log(repo_name);
-    const commits = await fetch(`https://code.iiit.ac.in/api/v1/repos/${repo_name}/activities/feeds`, {
+    const commits = await fetch(`${new URL(changeInfo.url).origin}/api/v1/repos/${repo_name}/activities/feeds`, {
       method: 'GET',
       headers: {
         'Authorization': `token ${api_token}`,
@@ -51,7 +51,7 @@ browser.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
         const stheader = headerrow.insertBefore(
           document.createElement('th'), headerrow.children[3]
         );
-        stheader.innerHTML = headerText;
+        stheader.textContent = headerText;
         stheader.classList.add('two', 'wide', 'right', 'aligned');
 
         for (const row of table.children[1].getElementsByTagName('tr')) {
