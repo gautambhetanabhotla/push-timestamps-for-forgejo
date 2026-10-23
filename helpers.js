@@ -1,3 +1,6 @@
+// Chrome only exposes `chrome`, whose MV3 APIs return promises just like Firefox's `browser`
+globalThis.browser ??= chrome;
+
 const STORAGE_KEY = 'apiToken';
 const SITES_KEY = 'sites';
 const DEFAULT_SITES = ['https://code.iiit.ac.in'];

@@ -17,8 +17,9 @@
   },
   "background": {
     "scripts": ["worker.js"],
+    "service_worker": "worker.js",
     "type": "module"
   },
-  "permissions": ["scripting", "storage"],
+  "permissions": ["activeTab", "scripting", "storage"],
   "optional_host_permissions": ["https://*/*"]
 }
